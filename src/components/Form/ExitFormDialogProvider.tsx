@@ -210,9 +210,9 @@ const ExitFormDialogProvider = ({ children }) => {
       getDirtyFormsSubmitFn().map(submitFn => submitFn())
     );
 
-    const isError = errors.flat().some(errors => errors);
-
     setIsSubmitting(false);
+
+    const isError = errors.flat().some(errors => errors);
 
     if (!isError) {
       continueNavigation();

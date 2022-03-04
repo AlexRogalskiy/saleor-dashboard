@@ -17,7 +17,7 @@ export const displayDemoMessage = (
   });
 };
 
-const getAllErrorMessages = (error: ApolloError) => {
+export const getAllErrorMessages = (error: ApolloError) => {
   const errorMessages = [];
 
   if (error.graphQLErrors.length) {
@@ -37,6 +37,10 @@ const getAllErrorMessages = (error: ApolloError) => {
             errorMessages.push(message);
           });
         }
+      });
+    } else if (networkErrors?.result?.errors.length > 0) {
+      networkErrors.result.errors.forEach(({ message }) => {
+        errorMessages.push(message);
       });
     } else {
       errorMessages.push(networkErrors.result.errors.message);
