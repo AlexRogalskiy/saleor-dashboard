@@ -13,6 +13,7 @@ export interface ExitFormDialogData {
   setEnableExitDialog: (value: boolean) => void;
   shouldBlockNavigation: () => boolean;
   setIsSubmitting: (value: boolean) => void;
+  setIsSubmitDisabled: (value: boolean) => void;
 }
 
 export type SubmitFn = (dataOrEvent?: any) => SubmitPromise<any[]>;
@@ -37,7 +38,8 @@ export const ExitFormDialogContext = React.createContext<ExitFormDialogData>({
   setEnableExitDialog: () => undefined,
   setExitDialogSubmitRef: () => undefined,
   shouldBlockNavigation: () => false,
-  setIsSubmitting: () => undefined
+  setIsSubmitting: () => undefined,
+  setIsSubmitDisabled: () => undefined
 });
 
 const defaultValues = {
@@ -56,6 +58,11 @@ const ExitFormDialogProvider = ({ children }) => {
   const { history: routerHistory } = useRouter();
 
   const [showDialog, setShowDialog] = useState(defaultValues.showDialog);
+  const isSubmitDisabled = useRef<boolean>(false);
+
+  const setIsSubmitDisabled = (status: boolean) => {
+    isSubmitDisabled.current = status;
+  };
 
   const isSubmitting = useRef(defaultValues.isSubmitting);
   const formsData = useRef<FormsData>({});
@@ -239,7 +246,8 @@ const ExitFormDialogProvider = ({ children }) => {
     shouldBlockNavigation,
     setEnableExitDialog,
     setExitDialogSubmitRef: setSubmitRef,
-    setIsSubmitting
+    setIsSubmitting,
+    setIsSubmitDisabled
   };
 
   useBeforeUnload(e => {
@@ -258,6 +266,7 @@ const ExitFormDialogProvider = ({ children }) => {
         onSubmit={handleSubmit}
         onLeave={handleLeave}
         onClose={handleClose}
+        isSubmitDisabled={isSubmitDisabled.current}
       />
       {children}
     </ExitFormDialogContext.Provider>
