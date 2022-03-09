@@ -127,7 +127,8 @@ export function useAuthProvider({
     try {
       const result = await login({
         email,
-        password
+        password,
+        includeDetails: false
       });
 
       if (result && !result.data.tokenCreate.errors.length) {
