@@ -7,7 +7,6 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
-import { CSSProperties } from "@material-ui/styles";
 import CardTitle from "@saleor/components/CardTitle";
 import Container from "@saleor/components/Container";
 import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
