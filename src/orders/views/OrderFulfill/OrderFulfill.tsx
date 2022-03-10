@@ -8,36 +8,15 @@ import {
   useOrderFulfillData,
   useOrderFulfillSettingsQuery
 } from "@saleor/orders/queries";
-import { OrderFulfillData_order } from "@saleor/orders/types/OrderFulfillData";
 import { OrderFulfillUrlQueryParams, orderUrl } from "@saleor/orders/urls";
-import { getWarehousesFromOrderLines } from "@saleor/orders/utils/data";
 import { useWarehouseDetails } from "@saleor/warehouses/queries";
 import React from "react";
 import { useIntl } from "react-intl";
-
-import { WarehouseClickAndCollectOptionEnum } from "../../../types/globalTypes";
 
 export interface OrderFulfillProps {
   orderId: string;
   params: OrderFulfillUrlQueryParams;
 }
-
-const resolveLocalFulfillment = (
-  order: OrderFulfillData_order,
-  orderLineWarehouses
-) => {
-  const deliveryMethod = order?.deliveryMethod;
-  if (
-    deliveryMethod?.__typename === "Warehouse" &&
-    deliveryMethod?.clickAndCollectOption ===
-      WarehouseClickAndCollectOptionEnum.LOCAL
-  ) {
-    return orderLineWarehouses?.filter(
-      warehouse => warehouse?.id === deliveryMethod?.id
-    );
-  }
-  return orderLineWarehouses;
-};
 
 const OrderFulfill: React.FC<OrderFulfillProps> = ({ orderId, params }) => {
   const navigate = useNavigator();
@@ -56,8 +35,6 @@ const OrderFulfill: React.FC<OrderFulfillProps> = ({ orderId, params }) => {
     }
   });
 
-  const orderLinesWarehouses = getWarehousesFromOrderLines(data?.order?.lines);
-
   const [fulfillOrder, fulfillOrderOpts] = useOrderFulfill({
     onCompleted: data => {
       if (data.orderFulfill.errors.length === 0) {
@@ -72,11 +49,6 @@ const OrderFulfill: React.FC<OrderFulfillProps> = ({ orderId, params }) => {
       }
     }
   });
-
-  const resolvedOrderLinesWarehouses = resolveLocalFulfillment(
-    data?.order,
-    orderLinesWarehouses
-  );
 
   const { data: warehouseData } = useWarehouseDetails({
     variables: {
