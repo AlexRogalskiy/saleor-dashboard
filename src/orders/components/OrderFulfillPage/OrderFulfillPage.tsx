@@ -183,7 +183,7 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                         >
                           <FormattedMessage {...messages.quantity} />
                         </TableCell>
-                        <TableCell className={classes.colQuantityTotal}>
+                        <TableCell className={classes.colStock}>
                           <FormattedMessage {...messages.stock} />
                         </TableCell>
                       </TableRow>
@@ -204,7 +204,7 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                                 <TableCell className={classes.colQuantity}>
                                   <Skeleton />
                                 </TableCell>
-                                <TableCell className={classes.colQuantityTotal}>
+                                <TableCell className={classes.colStock}>
                                   {" "}
                                   <Skeleton />
                                 </TableCell>
@@ -359,7 +359,7 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                                 );
                               })()}
                               <TableCell
-                                className={classes.colQuantityTotal}
+                                className={classes.colStock}
                                 key="total"
                               >
                                 {!isPreorder && availableQuantity}
