@@ -214,16 +214,9 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
           fetchReferenceProducts={fetchReferenceProducts}
           fetchMoreReferenceProducts={fetchMoreReferenceProducts}
           assignReferencesAttributeId={assignReferencesAttributeId}
+          loading={loading}
         >
-          {({
-            change,
-            data,
-            formErrors,
-            disabled: formDisabled,
-            handlers,
-            hasChanged,
-            submit
-          }) => (
+          {({ change, data, formErrors, handlers, submit, saveDisabled }) => (
             <>
               <Grid variant="inverted">
                 <div>
@@ -361,7 +354,7 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                 </div>
               </Grid>
               <Savebar
-                disabled={loading || formDisabled || !hasChanged}
+                disabled={saveDisabled}
                 state={saveButtonBarState}
                 onCancel={onBack}
                 onDelete={onDelete}
